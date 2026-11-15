@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var L = window.LitCal, I18N = window.LITCAL_I18N, BIOS = window.LITCAL_BIOS || {}, READINGS = window.LITCAL_READINGS || {};
+  var L = window.LitCal, I18N = window.LITCAL_I18N, BIOS = window.LITCAL_BIOS || {}, READINGS = window.LITCAL_READINGS || {}, SC = window.LitScripture;
   var $ = function (id) { return document.getElementById(id); };
 
   /* ---------- settings (remembered on this device only) ---------- */
@@ -89,6 +89,8 @@
       citations(d) +
       '<a class="btn" href="' + d.readingsUrl + '" target="_blank" rel="noopener">' + esc(S.readOn(S.shortDate(d, S.months))) + '</a>';
 
+    fillScripture(n);
+
     $('saints').innerHTML = d.saints.length
       ? '<ul class="saintlist">' + d.saints.map(function (s, i) {
         var status = s.status === 'optional' ? S.optional : s.status === 'superseded' ? S.superseded(d.name) : '';
@@ -122,14 +124,42 @@
   function citations(d) {
     var raw = (ascThu && READINGS[d.iso + 'T']) || READINGS[d.iso];
     if (!raw) return '';
-    return '<ul class="cites">' + raw.split(';;').map(function (set) {
+    var sets = raw.split(';;');
+    return '<div class="masses">' + sets.map(function (set, i) {
       var bar = set.lastIndexOf('|'), body = set.slice(0, bar), lec = set.slice(bar + 1), label = '';
       var eq = body.indexOf('=');
       if (eq > 0) { label = body.slice(0, eq); body = body.slice(eq + 1); }
-      return '<li>' + (label ? '<b>' + esc(S.massLabels[label] || label) + ':</b> ' : '') +
+      var head = (label ? '<b>' + esc(S.massLabels[label] || label) + ':</b> ' : '') +
         esc(body.split('/').join(' · ')) +
-        ' <span class="muted">(' + esc(S.lectionary) + ' ' + esc(lec) + ')</span></li>';
-    }).join('') + '</ul><p class="fine">' + esc(S.citeSource) + '</p>';
+        ' <span class="muted">(' + esc(S.lectionary) + ' ' + esc(lec) + ')</span>';
+      var text = '<div class="scripture" data-cites="' + esc(body) + '"><p class="muted">' + esc(S.loadingText) + '</p></div>';
+      // a day with several Masses folds them up, with the last (the Mass of the day) open
+      return sets.length > 1
+        ? '<details class="mass"' + (i === sets.length - 1 ? ' open' : '') + '><summary>' + head + '</summary>' + text + '</details>'
+        : '<div class="mass"><p>' + head + '</p>' + text + '</div>';
+    }).join('') + '</div><p class="fine">' + esc(S.citeSource) + '</p>';
+  }
+
+  // Fill in the Bible text for the citations on screen, loading each book the first time it is needed.
+  function fillScripture(n) {
+    Array.prototype.forEach.call(document.querySelectorAll('#readings .scripture'), function (box) {
+      var list = SC.passages(box.getAttribute('data-cites'));
+      var codes = list.filter(function (p) { return p.parsed; }).map(function (p) { return p.parsed.code; });
+      Promise.all(codes.map(SC.load)).then(function () {
+        if (current !== n || !box.isConnected) return;
+        box.innerHTML = list.map(function (p) {
+          var vs = p.parsed ? SC.verses(p.parsed) : [], lastCh = null;
+          var body = vs.length ? '<p class="verses">' + vs.map(function (v) {
+            var mark = v.ch !== lastCh ? v.ch + ':' + v.v : v.v; lastCh = v.ch;
+            return '<sup>' + mark + '</sup>' + esc(v.text);
+          }).join(' ') + '</p>' : '<p class="muted">' + esc(S.noText) + '</p>';
+          return '<div class="passage"><h3><span>' + esc(p.parsed && p.parsed.gospel ? S.gospel : S.reading) + '</span>' + esc(p.cite) + '</h3>' +
+            body + (p.parsed && p.parsed.approx && vs.length ? '<p class="fine">' + esc(S.approxNote) + '</p>' : '') + '</div>';
+        }).join('');
+      }, function () {
+        if (box.isConnected) box.innerHTML = '<p class="muted">' + esc(S.noText) + '</p>';
+      });
+    });
   }
 
   function dayButton(w, selected, withName) {
@@ -239,5 +269,9 @@
   // Offline support. Only on http(s); opening index.html straight from disk still works without it.
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
     navigator.serviceWorker.register('sw.js').catch(function () { /* offline support is optional */ });
+    // once the page is settled, ask the worker to save the Bible books for offline reading
+    navigator.serviceWorker.ready.then(function (reg) {
+      setTimeout(function () { if (reg.active) reg.active.postMessage({ type: 'precache', files: SC.allFiles() }); }, 4000);
+    }).catch(function () { /* optional */ });
   }
 })();
