@@ -32,7 +32,10 @@
     week: 'This week', month: 'Month', prevMonth: 'Previous month', nextMonth: 'Next month',
     settings: 'Settings', settingsSub: 'Language and diocese', language: 'Language',
     ascension: 'Ascension of the Lord', ascSun: 'Sunday (most US dioceses)', ascThu: 'Thursday (Boston, Hartford, New York, Omaha, Philadelphia provinces)',
-    meaningsTitle: 'Color Meanings', meaningsSub: 'What each liturgical color signifies',
+    colorsTitle: 'The Colors: Meanings and History', colorsSub: 'What each color signifies and where it comes from',
+    aboutSaint: function (name) { return 'About ' + name + ' (Vatican News)'; },
+    aboutSeason: function (season) { return 'About ' + season + ' (USCCB)'; },
+    saintsMore: 'More about the saints of this date on Vatican News',
     meanings: [
       ['green', 'Green', 'Hope and growth', 'Worn through Ordinary Time, the longest stretch of the year. It is the color of living things, for the steady, everyday growth of faith between the great seasons.'],
       ['white', 'White or Gold', 'Joy and glory', 'Worn in Christmas and Easter Time, on feasts of the Lord (other than of his Passion), of Mary, the angels, and saints who were not martyrs. It stands for light, purity and the Resurrection.'],
@@ -42,7 +45,7 @@
       ['black', 'Black', 'Mourning', 'An option for All Souls’ Day and funeral Masses. Violet or white is more often seen today, but black keeps its place as the traditional color of mourning.']
     ],
     wearNote: 'The liturgical color is what the priest wears. Nobody in the pews is required to match it — it is simply a way to enter into the day. Whatever the color, dress modestly and with care.',
-    historyTitle: 'Where the Colors Come From', historySub: 'A short history',
+    historyTitle: 'Where the Colors Come From',
     history: [
       ['Early centuries.', 'There was no fixed scheme. Vestments were simply good clothing, most often white.'],
       ['Around 1200.', 'Pope Innocent III, in his treatise on the Mass (<i>De sacro altaris mysterio</i>), described the Roman custom of his day: white for feasts, red for martyrs and Pentecost, black for penance and mourning, green for ordinary days, with violet as a variant of black.'],
@@ -85,7 +88,10 @@
     week: 'Esta semana', month: 'Mes', prevMonth: 'Mes anterior', nextMonth: 'Mes siguiente',
     settings: 'Ajustes', settingsSub: 'Idioma y diócesis', language: 'Idioma',
     ascension: 'Ascensión del Señor', ascSun: 'Domingo (la mayoría de las diócesis de EE. UU.)', ascThu: 'Jueves (provincias de Boston, Hartford, Nueva York, Omaha y Filadelfia)',
-    meaningsTitle: 'Significado de los colores', meaningsSub: 'Qué significa cada color litúrgico',
+    colorsTitle: 'Los colores: significado e historia', colorsSub: 'Qué significa cada color y de dónde viene',
+    aboutSaint: function (name) { return 'Sobre ' + name + ' (Vatican News)'; },
+    aboutSeason: function (season) { return 'Sobre ' + season + ' (USCCB, en inglés)'; },
+    saintsMore: 'Más sobre los santos de esta fecha en Vatican News',
     meanings: [
       ['green', 'Verde', 'Esperanza y crecimiento', 'Se usa durante el Tiempo Ordinario, el período más largo del año. Es el color de lo que vive y crece: el crecimiento constante y cotidiano de la fe entre los grandes tiempos.'],
       ['white', 'Blanco o dorado', 'Alegría y gloria', 'Se usa en los tiempos de Navidad y Pascua, en las fiestas del Señor (excepto las de su Pasión), de María, de los ángeles y de los santos que no fueron mártires. Representa la luz, la pureza y la Resurrección.'],
@@ -95,7 +101,7 @@
       ['black', 'Negro', 'Luto', 'Es una opción para el Día de los Fieles Difuntos y las Misas exequiales. Hoy se ve más el morado o el blanco, pero el negro conserva su lugar como color tradicional del luto.']
     ],
     wearNote: 'El color litúrgico es el que viste el sacerdote. Nadie en la asamblea está obligado a combinarlo: es simplemente una manera de vivir el día. Sea cual sea el color, viste con modestia y cuidado.',
-    historyTitle: 'De dónde vienen los colores', historySub: 'Una breve historia',
+    historyTitle: 'De dónde vienen los colores',
     history: [
       ['Primeros siglos.', 'No había un esquema fijo. Las vestiduras eran simplemente ropa de buena calidad, casi siempre blanca.'],
       ['Hacia 1200.', 'El Papa Inocencio III, en su tratado sobre la Misa (<i>De sacro altaris mysterio</i>), describió la costumbre romana de su tiempo: blanco para las fiestas, rojo para los mártires y Pentecostés, negro para la penitencia y el luto, verde para los días ordinarios, y el morado como variante del negro.'],

@@ -34,9 +34,8 @@
     $('prevMonth').setAttribute('aria-label', S.prevMonth); $('nextMonth').setAttribute('aria-label', S.nextMonth);
     $('today').textContent = S.backToday;
     $('readingsTitle').textContent = S.readings; $('saintTitle').textContent = S.saint;
-    $('weekTitle').textContent = S.week; $('monthTitle').textContent = S.month;
-    $('meaningsTitle').textContent = S.meaningsTitle; $('meaningsSub').textContent = S.meaningsSub;
-    $('historyTitle').textContent = S.historyTitle; $('historySub').textContent = S.historySub;
+    $('colorsTitle').textContent = S.colorsTitle; $('colorsSub').textContent = S.colorsSub;
+    $('historyTitle').textContent = S.historyTitle;
     $('settingsTitle').textContent = S.settings; $('settingsSub').textContent = S.settingsSub;
     $('langLabel').textContent = S.language; $('ascLabel').textContent = S.ascension;
     $('ascSel').options[0].textContent = S.ascSun; $('ascSel').options[1].textContent = S.ascThu;
@@ -77,6 +76,7 @@
       '<p class="label">' + esc(S.celebration) + '</p>' +
       '<p class="celebration">' + esc(d.name) + '</p>' +
       '<p class="rank">' + esc(d.rank) + (d.obligation ? ' · ' + esc(S.obligation) : '') + '</p>' +
+      aboutLink(d) +
       notes.map(function (t) { return '<p class="note">' + esc(t) + '</p>'; }).join('');
     $('share').onclick = function () { share(d); };
 
@@ -105,19 +105,33 @@
           : '<li><div class="saintrow">' + inner + '</div></li>';
       }).join('') + '</ul>'
       : '<p class="muted">' + esc(S.noSaint) + '</p>';
+    if (d.saints.some(function (s) { return s.m; })) {
+      var first = d.saints.filter(function (s) { return s.m; })[0];
+      $('saints').innerHTML += '<a class="btn" href="' + saintsUrl(first.m, first.d) + '" target="_blank" rel="noopener">' + esc(S.saintsMore) + ' →</a>';
+    }
     $('saints').onclick = function (e) {
       var b = e.target.closest('.saintbtn');
       if (b) openSaint(d.saints[+b.getAttribute('data-i')], d);
     };
 
-    // week strip, Sunday to Saturday
-    var start = n - d.dow, html = '';
-    for (var i = 0; i < 7; i++) html += dayButton(getDay(start + i), n, true);
-    $('week').innerHTML = html;
-
     var p = L.parts(n);
     monthAnchor = L.dn(p.y, p.m, 1);
     renderMonth();
+  }
+
+  // A link explaining the day: the Vatican's saint-of-the-day page for feasts on a fixed date,
+  // or the US bishops' page on the season. Plain days of Ordinary Time get none.
+  function two(v) { return (v < 10 ? '0' : '') + v; }
+  function saintsUrl(m, dd) {
+    return 'https://www.vaticannews.va/' + (lang === 'es' ? 'es/santos/' : 'en/saints/') + two(m) + '/' + two(dd) + '.html';
+  }
+  var SEASON_PAGE = { advent: 'advent', christmas: 'christmas', lent: 'lent', holyweek: 'lent', triduum: 'triduum', easter: 'easter' };
+  function aboutLink(d) {
+    var url, text;
+    if (d.about && d.about.kind === 'saint') { url = saintsUrl(d.about.m, d.about.d); text = S.aboutSaint(d.name); }
+    else if (d.about && d.about.kind === 'season') { url = 'https://www.usccb.org/prayer-worship/liturgical-year/' + SEASON_PAGE[d.season]; text = S.aboutSeason(d.seasonName); }
+    else return '';
+    return '<a class="about" href="' + url + '" target="_blank" rel="noopener">' + esc(text) + ' →</a>';
   }
 
   // Reading citations, where we have them (2027). Each Mass of the day is "Label=citations|lectionary".
@@ -175,7 +189,6 @@
     var p = L.parts(monthAnchor), lead = L.dow(monthAnchor);
     var next = p.m === 12 ? L.dn(p.y + 1, 1, 1) : L.dn(p.y, p.m + 1, 1);
     $('monthName').textContent = cap(S.months[p.m - 1]) + ' ' + p.y;
-    $('monthSub').textContent = cap(S.months[p.m - 1]) + ' ' + p.y;
     var html = S.wdShort.map(function (w) { return '<span class="mh">' + w + '</span>'; }).join('');
     for (var i = 0; i < lead; i++) html += '<span></span>';
     for (var n = monthAnchor; n < next; n++) html += dayButton(getDay(n), current, false);
@@ -249,7 +262,6 @@
   $('next').onclick = function () { go(current + 1); };
   $('today').onclick = function () { go(L.today()); };
   $('date').onchange = function () { var n = L.fromIso(this.value); if (n !== null) go(n); };
-  $('week').onclick = pick;
   $('month').onclick = pick;
   $('prevMonth').onclick = function () { shiftMonth(-1); };
   $('nextMonth').onclick = function () { shiftMonth(1); };

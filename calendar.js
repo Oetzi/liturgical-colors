@@ -341,7 +341,7 @@
       else status = 'superseded';
       return {
         key: e.names.en, name: e.names[lang], title: e.titles[lang], rank: L.rank[e.rankKey],
-        color: e.color, status: status, moved: !!e.moved
+        color: e.color, status: status, moved: !!e.moved, m: e.m || 0, d: e.d || 0
       };
     });
 
@@ -368,6 +368,9 @@
       name: nameOf(win), rank: L.rank[win.rankKey], color: win.color,
       notes: notes, saints: saints, obligation: obligation,
       proper: w !== 0 && win.prec <= 7,
+      // what a "learn more" link should point at: a feast on a fixed date, else the season (not Ordinary Time)
+      about: (!win.temporal && win.m) ? { kind: 'saint', m: win.m, d: win.d }
+        : (t.season !== 'ordinary' ? { kind: 'season' } : null),
       sundayCycle: ['C', 'A', 'B'][litYear % 3], weekdayCycle: litYear % 2 ? 'I' : 'II',
       readingsUrl: lang === 'es'
         ? 'https://bible.usccb.org/es/bible/lecturas/' + code + '.cfm'
