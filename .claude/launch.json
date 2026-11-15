@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "liturgical-colors",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": [
+        "-NoProfile",
+        "-Command",
+        "$l=New-Object System.Net.HttpListener;$l.Prefixes.Add('http://localhost:8090/');$l.Start();$root=(Get-Location).Path;Write-Host ('Serving '+$root);while($l.IsListening){$c=$l.GetContext();try{$r=$c.Request.Url.AbsolutePath.TrimStart('/');if($r -eq ''){$r='index.html'};$p=Join-Path $root $r;if(Test-Path $p -PathType Leaf){$b=[IO.File]::ReadAllBytes($p);if($p -like '*.html'){$c.Response.ContentType='text/html; charset=utf-8'}elseif($p -like '*.js'){$c.Response.ContentType='application/javascript; charset=utf-8'}elseif($p -like '*.css'){$c.Response.ContentType='text/css; charset=utf-8'}elseif($p -like '*.svg'){$c.Response.ContentType='image/svg+xml'}elseif($p -like '*.png'){$c.Response.ContentType='image/png'}elseif($p -like '*.webmanifest'){$c.Response.ContentType='application/manifest+json'};$c.Response.Headers.Add('Cache-Control','no-store');$c.Response.OutputStream.Write($b,0,$b.Length)}else{$c.Response.StatusCode=404}}catch{}finally{$c.Response.Close()}}"
+      ],
+      "port": 8090
+    }
+  ]
+}
