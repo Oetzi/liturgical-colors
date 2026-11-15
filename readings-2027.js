@@ -2,9 +2,9 @@
  * Mass reading citations for 2027 (first reading / second reading / Gospel, and Lectionary number).
  * Source: USCCB, "Liturgical Calendar for the Dioceses of the United States of America 2027".
  * Format: "citations|lectionary"; several Masses on one day are separated by ";;" and labelled "Label=...".
- * Keys ending in T apply when the Ascension is kept on Thursday. Dates outside 2027 fall back to the USCCB link.
+ * Keys ending in T apply when the Ascension is kept on Thursday. Dates with no entry fall back to the USCCB link.
  */
-(typeof window !== 'undefined' ? window : globalThis).LITCAL_READINGS = {
+(function (root) { var R = root.LITCAL_READINGS = root.LITCAL_READINGS || {}, D = {
 "2027-01-01":"Nm 6:22-27/Gal 4:4-7/Lk 2:16-21|18",
 "2027-01-02":"1 Jn 2:22-28/Jn 1:19-28|205",
 "2027-01-03":"Is 60:1-6/Eph 3:2-3a, 5-6/Mt 2:1-12|20",
@@ -371,4 +371,4 @@
 "2027-09-15":"1 Tm 3:14-16/Jn 19:25-27 or Lk 2:33-35|445, 639",
 "2027-10-02":"Bar 4:5-12, 27-29/Mt 18:1-5, 10|460, 650",
 "2027-12-25":"Vigil=Is 62:1-5/Acts 13:16-17, 22-25/Mt 1:1-25 or 1:18-25|13;;Night=Is 9:1-6/Ti 2:11-14/Lk 2:1-14|14;;Dawn=Is 62:11-12/Ti 3:4-7/Lk 2:15-20|15;;Day=Is 52:7-10/Heb 1:1-6/Jn 1:1-18 or 1:1-5, 9-14|16",
-};
+}; for (var k in D) R[k] = D[k]; })(typeof window !== 'undefined' ? window : globalThis);

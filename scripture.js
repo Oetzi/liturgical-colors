@@ -21,7 +21,8 @@
     Heb: 'HEB', Jas: 'JAM', '1 Pt': '1PE', '2 Pt': '2PE', '1 Jn': '1JO', '2 Jn': '2JO', '3 Jn': '3JO',
     Jude: 'JUD', Rv: 'REV'
   };
-  var GOSPELS = { MAT: 1, MAR: 1, LUK: 1, JOH: 1 };
+  var SINGLE = { OBA: 1, PHM: 1, '2JO': 1, '3JO': 1, JUD: 1 };
+  var GOSPELS ={ MAT: 1, MAR: 1, LUK: 1, JOH: 1 };
   // Books translated from a different ancient text, where verses will not always line up.
   var APPROX = { TOB: 1, SIR: 1, ESG: 1 };
 
@@ -55,6 +56,8 @@
     ['NAH', 2, 1, 1, 1, 14], ['NAH', 2, 2, 14, 2, -1],
     ['ZEC', 2, 1, 4, 1, 17], ['ZEC', 2, 5, 17, 2, -4],
     ['MAL', 3, 19, 24, 4, -18],
+    // Romans: this Bible prints the closing doxology at the end of chapter 14
+    ['ROM', 16, 25, 27, 14, -1],
     // Esther: the Lectionary's addition C is printed after 4:17 in this Bible
     ['ESG', 'C', 1, 30, 4, 17]
   ];
@@ -84,7 +87,8 @@
   function parse(ref) {
     var m = /^((?:[1-3] )?[A-Za-z]+) (.+)$/.exec(ref.trim());
     if (!m || !BOOKS[m[1]]) return null;
-    var cur = null, ranges = [], bad = false;
+    // one-chapter books are cited by verse alone ("Jude 17, 20b-25")
+    var cur = SINGLE[BOOKS[m[1]]] ? 1 : null, ranges = [], bad = false;
     function point(s) {
       var p = /^(?:([0-9]+|[A-F]):)?([0-9]+)[a-e]*$/.exec(s.trim());
       if (!p) { bad = true; return null; }
