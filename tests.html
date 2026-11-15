@@ -100,6 +100,30 @@ var schol = LitCal.getDay(LitCal.fromIso('2027-02-10')).saints[0];
 check('St. Scholastica is superseded by Ash Wednesday', schol && schol.status === 'superseded', JSON.stringify(schol));
 var pat = LitCal.getDay(LitCal.fromIso('2027-03-17')).saints[0];
 check('St. Patrick is optional on a Lent weekday', pat && pat.status === 'optional', JSON.stringify(pat));
+function day(s, o) { return LitCal.getDay(LitCal.fromIso(s), o); }
+var ih = day('2027-06-05');
+check('Immaculate Heart meeting St. Boniface: green weekday, both optional', ih.color === 'green' &&
+  ih.saints.filter(function (x) { return x.status === 'optional'; }).length === 3, ih.color + ' ' + JSON.stringify(ih.saints));
+check('Immaculate Heart alone is a white memorial (2024-06-08)', day('2024-06-08').color === 'white' && /Immaculate Heart/.test(day('2024-06-08').name), day('2024-06-08').name);
+check('Day of Prayer on Jan 22', day('2027-01-22').color === 'white' && /Day of Prayer/.test(day('2027-01-22').name), day('2027-01-22').name);
+check('Day of Prayer moves to Jan 23 when the 22nd is a Sunday (2023)', /Day of Prayer/.test(day('2023-01-23').name) && /3rd Sunday/.test(day('2023-01-22').name), day('2023-01-23').name);
+check('St. John Henry Newman on Oct 9', day('2027-10-09').saints.some(function (x) { return /Newman/.test(x.name); }), '');
+check('Blessed Virgin Mary on Saturday offered on a free Saturday', day('2027-10-09').saints.some(function (x) { return /on Saturday/.test(x.name); }), '');
+check('Thanksgiving Day offered on the 4th Thursday of November', day('2027-11-25').saints.some(function (x) { return /Thanksgiving/.test(x.name); }) && !day('2027-11-18').saints.some(function (x) { return /Thanksgiving/.test(x.name); }), '');
+check('Ascension Thursday setting', /Ascension/.test(day('2027-05-06', { ascThu: true }).name) && day('2027-05-06', { ascThu: true }).obligation &&
+  /7th Sunday of Easter/.test(day('2027-05-09', { ascThu: true }).name) && /Thursday of the 6th Week of Easter/.test(day('2027-05-06').name), day('2027-05-09', { ascThu: true }).name);
+check('Lent Friday carries the abstinence note', day('2027-02-19').notes.join().indexOf('abstinence') >= 0, day('2027-02-19').notes.join());
+check('St. Joseph on a Lent Friday lifts the abstinence note', day('2027-03-19').notes.join().indexOf('abstinence') < 0, day('2027-03-19').notes.join());
+check('Spanish: Sunday name', day('2026-11-15', { lang: 'es' }).name === 'XXXIII Domingo del Tiempo Ordinario', day('2026-11-15', { lang: 'es' }).name);
+check('Spanish: weekday name', day('2026-12-01', { lang: 'es' }).name === 'Martes de la I semana de Adviento', day('2026-12-01', { lang: 'es' }).name);
+check('Spanish: saint and rank', day('2026-11-30', { lang: 'es' }).name === 'San Andrés' && day('2026-11-30', { lang: 'es' }).rank === 'Fiesta', day('2026-11-30', { lang: 'es' }).name);
+check('Spanish: readings link', day('2026-11-15', { lang: 'es' }).readingsUrl === 'https://bible.usccb.org/es/bible/lecturas/111526.cfm', day('2026-11-15', { lang: 'es' }).readingsUrl);
+var badEs = 0;
+for (var q = LitCal.dn(2026, 1, 1); q <= LitCal.dn(2028, 12, 31); q++) {
+  var z = LitCal.getDay(q, { lang: 'es', ascThu: true });
+  if (!z.name || /undefined/.test(z.name + z.rank + z.seasonName + z.saints.map(function (x) { return x.name + x.rank; }).join())) badEs++;
+}
+check('Spanish: every day 2026-2028 has complete wording', badEs === 0, badEs + ' bad days');
 // every day for 60 years must resolve without error, and every Sunday number must be sane
 var bad = 0;
 for (var n = LitCal.dn(2000, 1, 1); n <= LitCal.dn(2060, 12, 31); n++) {

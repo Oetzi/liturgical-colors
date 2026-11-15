@@ -1,0 +1,104 @@
+/* All interface wording, English and Spanish. */
+(typeof window !== 'undefined' ? window : globalThis).LITCAL_I18N = {
+  en: {
+    title: 'Liturgical Colors', tag: 'What to wear to Mass', support: 'Support', supportLong: 'Support the Creator',
+    supportFine: 'Help keep this app free for everyone',
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    wdShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    date: function (d, months) { return months[d.month - 1] + ' ' + d.day + ', ' + d.year; },
+    shortDate: function (d, months) { return months[d.month - 1] + ' ' + d.day; },
+    today: 'Today', backToday: 'Back to today', prevDay: 'Previous day', nextDay: 'Next day', pickDate: 'Pick a date',
+    wear: 'Wear', celebration: 'Celebration', obligation: 'Holy day of obligation',
+    colors: { green: 'Green', white: 'White or Gold', red: 'Red', violet: 'Violet (Purple)', rose: 'Rose', black: 'Black' },
+    tips: {
+      green: 'Try a green tie, scarf, sweater or dress.',
+      white: 'Try white, cream or gold — a white shirt or blouse, a gold tie or scarf.',
+      red: 'Try a red tie, scarf, sweater or dress.',
+      violet: 'Try purple or violet — a tie, scarf, sweater or dress.',
+      rose: 'Try rose or soft pink — a tie, scarf, shirt or blouse.',
+      black: 'Try black or another dark, sober color.'
+    },
+    ifCelebrated: function (color, name) { return color + ' if the priest celebrates ' + name + '.'; },
+    share: 'Share', copied: 'Link copied', shareText: function (color, name, date) { return date + ': wear ' + color + ' to Mass — ' + name + '.'; },
+    readings: 'Daily Readings', sundayYear: 'Sunday readings: Year ', weekdayYear: 'Weekday readings: Year ', sundayCycle: 'Sunday cycle: Year ',
+    proper: 'This celebration has its own readings.',
+    lectionary: 'Lectionary', citeSource: 'Citations: USCCB Liturgical Calendar 2027. The psalm is not listed.', massLabels: {},
+    readOn: function (date) { return 'Read the readings for ' + date + ' on USCCB →'; },
+    saint: 'Saint of the Day', noSaint: 'No saint is assigned to this date on the general calendar.',
+    optional: 'May be celebrated today', superseded: function (name) { return 'Not celebrated this year – ' + name + ' takes precedence'; },
+    movedFrom: 'moved from its usual date', more: 'Read more', close: 'Close', patron: 'Patron of',
+    week: 'This week', month: 'Month', prevMonth: 'Previous month', nextMonth: 'Next month',
+    settings: 'Settings', settingsSub: 'Language and diocese', language: 'Language',
+    ascension: 'Ascension of the Lord', ascSun: 'Sunday (most US dioceses)', ascThu: 'Thursday (Boston, Hartford, New York, Omaha, Philadelphia provinces)',
+    meaningsTitle: 'Color Meanings', meaningsSub: 'What each liturgical color signifies',
+    meanings: [
+      ['green', 'Green', 'Hope and growth', 'Worn through Ordinary Time, the longest stretch of the year. It is the color of living things, for the steady, everyday growth of faith between the great seasons.'],
+      ['white', 'White or Gold', 'Joy and glory', 'Worn in Christmas and Easter Time, on feasts of the Lord (other than of his Passion), of Mary, the angels, and saints who were not martyrs. It stands for light, purity and the Resurrection.'],
+      ['red', 'Red', 'Blood and fire', 'Worn on Palm Sunday, Good Friday and Pentecost, and on feasts of the apostles and martyrs. It recalls the blood of Christ and those who died for the faith, and the fire of the Holy Spirit.'],
+      ['violet', 'Violet (Purple)', 'Penance and preparation', 'Worn in Advent and Lent, the seasons of preparation for Christmas and Easter. It may also be worn at Masses for the dead.'],
+      ['rose', 'Rose', 'Joy within a season of waiting', 'Worn on only two days: Gaudete Sunday (3rd of Advent) and Laetare Sunday (4th of Lent). Both names mean “rejoice” — the violet lightens because the feast is close.'],
+      ['black', 'Black', 'Mourning', 'An option for All Souls’ Day and funeral Masses. Violet or white is more often seen today, but black keeps its place as the traditional color of mourning.']
+    ],
+    wearNote: 'The liturgical color is what the priest wears. Nobody in the pews is required to match it — it is simply a way to enter into the day. Whatever the color, dress modestly and with care.',
+    historyTitle: 'Where the Colors Come From', historySub: 'A short history',
+    history: [
+      ['Early centuries.', 'There was no fixed scheme. Vestments were simply good clothing, most often white.'],
+      ['Around 1200.', 'Pope Innocent III, in his treatise on the Mass (<i>De sacro altaris mysterio</i>), described the Roman custom of his day: white for feasts, red for martyrs and Pentecost, black for penance and mourning, green for ordinary days, with violet as a variant of black.'],
+      ['1570.', 'The Roman Missal of Pope St. Pius V made the sequence of white, red, green, violet and black the general rule for the Roman Rite.'],
+      ['Rose.', 'A lightened violet became the custom for Gaudete and Laetare Sundays, the midpoints of Advent and Lent.'],
+      ['Today.', 'The <i>General Instruction of the Roman Missal</i> (no. 346) sets the colors now in use. In the United States, violet, white or black may be worn at Masses for the dead.']
+    ],
+    fine: 'The calendar follows the Ordinary Form for the dioceses of the United States. Your own diocese or parish may keep local feasts that are not shown.'
+  },
+  es: {
+    title: 'Colores Litúrgicos', tag: 'Qué vestir para la Misa', support: 'Apoyar', supportLong: 'Apoya al creador',
+    supportFine: 'Ayuda a mantener esta aplicación gratuita para todos',
+    months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+    wdShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+    date: function (d, months) { return d.day + ' de ' + months[d.month - 1] + ' de ' + d.year; },
+    shortDate: function (d, months) { return d.day + ' de ' + months[d.month - 1]; },
+    today: 'Hoy', backToday: 'Volver a hoy', prevDay: 'Día anterior', nextDay: 'Día siguiente', pickDate: 'Elegir una fecha',
+    wear: 'Viste de', celebration: 'Celebración', obligation: 'Fiesta de precepto',
+    colors: { green: 'Verde', white: 'Blanco o dorado', red: 'Rojo', violet: 'Morado', rose: 'Rosa', black: 'Negro' },
+    tips: {
+      green: 'Prueba una corbata, bufanda, suéter o vestido verde.',
+      white: 'Prueba blanco, crema o dorado: una camisa o blusa blanca, una corbata o bufanda dorada.',
+      red: 'Prueba una corbata, bufanda, suéter o vestido rojo.',
+      violet: 'Prueba el morado: una corbata, bufanda, suéter o vestido.',
+      rose: 'Prueba el rosa: una corbata, bufanda, camisa o blusa.',
+      black: 'Prueba el negro u otro color oscuro y sobrio.'
+    },
+    ifCelebrated: function (color, name) { return color + ' si el sacerdote celebra ' + name + '.'; },
+    share: 'Compartir', copied: 'Enlace copiado', shareText: function (color, name, date) { return date + ': viste de ' + color.toLowerCase() + ' para la Misa — ' + name + '.'; },
+    readings: 'Lecturas del día', sundayYear: 'Lecturas dominicales: ciclo ', weekdayYear: 'Lecturas feriales: año ', sundayCycle: 'ciclo dominical ',
+    proper: 'Esta celebración tiene lecturas propias.',
+    lectionary: 'Leccionario', citeSource: 'Citas: Calendario Litúrgico de la USCCB 2027 (abreviaturas en inglés). No se indica el salmo.',
+    massLabels: { Vigil: 'Vigilia', Day: 'Día', Night: 'Noche', Dawn: 'Aurora', Procession: 'Procesión', Mass: 'Misa', 'Easter Vigil': 'Vigilia Pascual', 'Evening Mass of the Lord’s Supper': 'Misa vespertina de la Cena del Señor' },
+    readOn: function (date) { return 'Leer las lecturas del ' + date + ' en USCCB →'; },
+    saint: 'Santo del día', noSaint: 'No hay ningún santo asignado a esta fecha en el calendario general.',
+    optional: 'Se puede celebrar hoy', superseded: function (name) { return 'No se celebra este año: tiene precedencia ' + name; },
+    movedFrom: 'trasladada de su fecha habitual', more: 'Leer más', close: 'Cerrar', patron: 'Patrono de',
+    week: 'Esta semana', month: 'Mes', prevMonth: 'Mes anterior', nextMonth: 'Mes siguiente',
+    settings: 'Ajustes', settingsSub: 'Idioma y diócesis', language: 'Idioma',
+    ascension: 'Ascensión del Señor', ascSun: 'Domingo (la mayoría de las diócesis de EE. UU.)', ascThu: 'Jueves (provincias de Boston, Hartford, Nueva York, Omaha y Filadelfia)',
+    meaningsTitle: 'Significado de los colores', meaningsSub: 'Qué significa cada color litúrgico',
+    meanings: [
+      ['green', 'Verde', 'Esperanza y crecimiento', 'Se usa durante el Tiempo Ordinario, el período más largo del año. Es el color de lo que vive y crece: el crecimiento constante y cotidiano de la fe entre los grandes tiempos.'],
+      ['white', 'Blanco o dorado', 'Alegría y gloria', 'Se usa en los tiempos de Navidad y Pascua, en las fiestas del Señor (excepto las de su Pasión), de María, de los ángeles y de los santos que no fueron mártires. Representa la luz, la pureza y la Resurrección.'],
+      ['red', 'Rojo', 'Sangre y fuego', 'Se usa el Domingo de Ramos, el Viernes Santo y Pentecostés, y en las fiestas de los apóstoles y mártires. Recuerda la sangre de Cristo y de quienes murieron por la fe, y el fuego del Espíritu Santo.'],
+      ['violet', 'Morado', 'Penitencia y preparación', 'Se usa en Adviento y Cuaresma, los tiempos de preparación para la Navidad y la Pascua. También puede usarse en las Misas de difuntos.'],
+      ['rose', 'Rosa', 'Alegría en medio de la espera', 'Se usa solo dos días: el Domingo Gaudete (III de Adviento) y el Domingo Laetare (IV de Cuaresma). Ambos nombres significan «alégrense»: el morado se aclara porque la fiesta está cerca.'],
+      ['black', 'Negro', 'Luto', 'Es una opción para el Día de los Fieles Difuntos y las Misas exequiales. Hoy se ve más el morado o el blanco, pero el negro conserva su lugar como color tradicional del luto.']
+    ],
+    wearNote: 'El color litúrgico es el que viste el sacerdote. Nadie en la asamblea está obligado a combinarlo: es simplemente una manera de vivir el día. Sea cual sea el color, viste con modestia y cuidado.',
+    historyTitle: 'De dónde vienen los colores', historySub: 'Una breve historia',
+    history: [
+      ['Primeros siglos.', 'No había un esquema fijo. Las vestiduras eran simplemente ropa de buena calidad, casi siempre blanca.'],
+      ['Hacia 1200.', 'El Papa Inocencio III, en su tratado sobre la Misa (<i>De sacro altaris mysterio</i>), describió la costumbre romana de su tiempo: blanco para las fiestas, rojo para los mártires y Pentecostés, negro para la penitencia y el luto, verde para los días ordinarios, y el morado como variante del negro.'],
+      ['1570.', 'El Misal Romano del Papa san Pío V estableció la secuencia de blanco, rojo, verde, morado y negro como norma general del Rito Romano.'],
+      ['Rosa.', 'Un morado aclarado se hizo costumbre en los domingos Gaudete y Laetare, a mitad del Adviento y de la Cuaresma.'],
+      ['Hoy.', 'La <i>Instrucción General del Misal Romano</i> (n. 346) establece los colores que se usan actualmente. En los Estados Unidos, en las Misas de difuntos se puede usar morado, blanco o negro.']
+    ],
+    fine: 'El calendario sigue la Forma Ordinaria para las diócesis de los Estados Unidos. Tu diócesis o parroquia puede tener fiestas locales que no aparecen aquí.'
+  }
+};
