@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Liturgical Colors - calendar tests</title>
+<style>body{font:14px/1.5 system-ui,sans-serif;margin:24px}.fail{color:#b00020;font-weight:600}.pass{color:#1a7f37}</style>
+</head>
+<body>
+<h1>Calendar tests</h1>
+<p id="summary"></p>
+<pre id="out"></pre>
+<script src="saints.js"></script>
+<script src="calendar.js"></script>
+<script>
+// date, expected colour, text the celebration name must contain
+var CASES = [
+  ['2026-11-15', 'green',  '33rd Sunday in Ordinary Time'],
+  ['2026-11-16', 'green',  'Monday of the 33rd Week in Ordinary Time'],
+  ['2026-11-22', 'white',  'King of the Universe'],
+  ['2026-11-24', 'red',    'Andrew D'],
+  ['2026-11-29', 'violet', '1st Sunday of Advent'],
+  ['2026-11-30', 'red',    'St. Andrew'],
+  ['2026-12-06', 'violet', '2nd Sunday of Advent'],
+  ['2026-12-08', 'white',  'Immaculate Conception'],
+  ['2026-12-13', 'rose',   'Gaudete'],
+  ['2026-12-14', 'white',  'John of the Cross'],
+  ['2026-12-18', 'violet', 'Friday of the 3rd Week of Advent'],
+  ['2026-12-25', 'white',  'Nativity of the Lord'],
+  ['2026-12-26', 'red',    'St. Stephen'],
+  ['2026-12-27', 'white',  'Holy Family'],
+  ['2027-01-01', 'white',  'Mother of God'],
+  ['2027-01-03', 'white',  'Epiphany'],
+  ['2027-01-10', 'white',  'Baptism of the Lord'],
+  ['2027-01-11', 'green',  'Monday of the 1st Week in Ordinary Time'],
+  ['2027-02-07', 'green',  '5th Sunday in Ordinary Time'],
+  ['2027-02-10', 'violet', 'Ash Wednesday'],
+  ['2027-02-11', 'violet', 'Thursday after Ash Wednesday'],
+  ['2027-02-14', 'violet', '1st Sunday of Lent'],
+  ['2027-03-07', 'rose',   'Laetare'],
+  ['2027-03-19', 'white',  'St. Joseph'],
+  ['2027-03-21', 'red',    'Palm Sunday'],
+  ['2027-03-22', 'violet', 'Monday of Holy Week'],
+  ['2027-03-25', 'white',  'Holy Thursday'],
+  ['2027-03-26', 'red',    'Good Friday'],
+  ['2027-03-28', 'white',  'Easter Sunday'],
+  ['2027-03-29', 'white',  'Monday within the Octave of Easter'],
+  ['2027-04-04', 'white',  'Divine Mercy'],
+  ['2027-04-05', 'white',  'Annunciation'],
+  ['2027-05-09', 'white',  'Ascension'],
+  ['2027-05-16', 'red',    'Pentecost'],
+  ['2027-05-17', 'white',  'Mother of the Church'],
+  ['2027-05-18', 'green',  'Tuesday of the 7th Week in Ordinary Time'],
+  ['2027-05-23', 'white',  'Most Holy Trinity'],
+  ['2027-05-30', 'white',  'Corpus Christi'],
+  ['2027-06-04', 'white',  'Sacred Heart'],
+  ['2027-11-28', 'violet', '1st Sunday of Advent'],
+  // other years
+  ['2026-02-15', 'green',  '6th Sunday in Ordinary Time'],
+  ['2026-02-18', 'violet', 'Ash Wednesday'],
+  ['2026-04-05', 'white',  'Easter Sunday'],
+  ['2026-05-25', 'white',  'Mother of the Church'],
+  ['2026-05-26', 'white',  'Philip Neri'],
+  ['2026-06-12', 'white',  'Sacred Heart'],
+  ['2026-08-06', 'white',  'Transfiguration'],
+  ['2026-11-02', 'violet', 'All Souls'],
+  ['2025-11-02', 'violet', 'All Souls'],
+  ['2025-11-09', 'white',  'Lateran Basilica'],
+  ['2025-11-30', 'violet', '1st Sunday of Advent'],
+  ['2024-03-19', 'white',  'St. Joseph'],
+  ['2024-03-25', 'violet', 'Monday of Holy Week'],
+  ['2024-04-08', 'white',  'Annunciation'],
+  ['2024-12-08', 'violet', '2nd Sunday of Advent'],
+  ['2024-12-09', 'white',  'Immaculate Conception'],
+  ['2023-01-01', 'white',  'Mother of God'],
+  ['2023-01-08', 'white',  'Epiphany'],
+  ['2023-01-09', 'white',  'Baptism of the Lord'],
+  ['2023-01-10', 'green',  'Tuesday of the 1st Week in Ordinary Time'],
+  ['2023-01-15', 'green',  '2nd Sunday in Ordinary Time'],
+  ['2022-12-30', 'white',  'Holy Family'],
+  ['2022-06-23', 'white',  'Nativity of St. John the Baptist'],
+  ['2022-06-24', 'white',  'Sacred Heart'],
+  ['2008-03-15', 'white',  'St. Joseph']
+];
+var out = [], fails = 0;
+function check(label, ok, detail) {
+  if (!ok) fails++;
+  out.push((ok ? 'PASS  ' : 'FAIL  ') + label + (ok ? '' : '   -> ' + detail));
+}
+CASES.forEach(function (c) {
+  var d = LitCal.getDay(LitCal.fromIso(c[0]));
+  check(c[0] + '  ' + c[1] + '  ' + c[2], d.color === c[1] && d.name.indexOf(c[2]) >= 0, d.color + ' / ' + d.name);
+});
+var a = LitCal.getDay(LitCal.fromIso('2026-11-15')), b = LitCal.getDay(LitCal.fromIso('2026-11-29'));
+check('cycles before Advent 2026 are A / II', a.sundayCycle === 'A' && a.weekdayCycle === 'II', a.sundayCycle + a.weekdayCycle);
+check('cycles from Advent 2026 are B / I', b.sundayCycle === 'B' && b.weekdayCycle === 'I', b.sundayCycle + b.weekdayCycle);
+check('readings link is date-specific', a.readingsUrl === 'https://bible.usccb.org/bible/readings/111526.cfm', a.readingsUrl);
+var lucy = LitCal.getDay(LitCal.fromIso('2026-12-13')).saints[0];
+check('St. Lucy is superseded by Gaudete Sunday', lucy && lucy.status === 'superseded', JSON.stringify(lucy));
+var schol = LitCal.getDay(LitCal.fromIso('2027-02-10')).saints[0];
+check('St. Scholastica is superseded by Ash Wednesday', schol && schol.status === 'superseded', JSON.stringify(schol));
+var pat = LitCal.getDay(LitCal.fromIso('2027-03-17')).saints[0];
+check('St. Patrick is optional on a Lent weekday', pat && pat.status === 'optional', JSON.stringify(pat));
+// every day for 60 years must resolve without error, and every Sunday number must be sane
+var bad = 0;
+for (var n = LitCal.dn(2000, 1, 1); n <= LitCal.dn(2060, 12, 31); n++) {
+  try { var x = LitCal.getDay(n); if (!x.name || !x.color || /(^|\D)(0th|3[5-9]th|-\d)/.test(x.name)) bad++; } catch (e) { bad++; }
+}
+check('2000-2060: every day resolves with a valid name', bad === 0, bad + ' bad days');
+document.getElementById('out').textContent = out.join('\n');
+var s = document.getElementById('summary');
+s.textContent = fails ? fails + ' FAILED of ' + out.length : 'All ' + out.length + ' checks passed';
+s.className = fails ? 'fail' : 'pass';
+</script>
+</body>
+</html>

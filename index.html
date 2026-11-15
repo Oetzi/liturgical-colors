@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liturgical Colors</title>
+<meta name="description" content="What to wear to Mass today: the liturgical color, celebration, readings and saint for any date.">
+<meta name="theme-color" content="#f6f4ef">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main>
+  <header class="top">
+    <h1>Liturgical Colors</h1>
+    <p class="tag">What to wear to Mass</p>
+  </header>
+
+  <nav class="datebar" aria-label="Choose a date">
+    <button id="prev" class="round" aria-label="Previous day">&#8249;</button>
+    <label class="datepick">
+      <span id="dayword" class="dayword"></span>
+      <span id="datetext" class="datetext"></span>
+      <input id="date" type="date" aria-label="Pick a date">
+    </label>
+    <button id="next" class="round" aria-label="Next day">&#8250;</button>
+  </nav>
+  <p class="todayrow"><button id="today" class="link" hidden>Back to today</button></p>
+
+  <section id="hero" class="hero" aria-live="polite"></section>
+
+  <section class="card">
+    <h2>Daily Readings</h2>
+    <div id="readings"></div>
+  </section>
+
+  <section class="card">
+    <h2>Saint of the Day</h2>
+    <div id="saints"></div>
+  </section>
+
+  <section aria-label="This week">
+    <h2 class="plain">This week</h2>
+    <div id="week" class="week"></div>
+  </section>
+
+  <details class="card fold">
+    <summary><h2>Color Meanings</h2><span>What each liturgical color signifies</span></summary>
+    <ul class="colors">
+      <li><i data-color="green"></i><div><b>Green</b> <em>Hope and growth</em>
+        <p>Worn through Ordinary Time, the longest stretch of the year. It is the color of living things, for the steady, everyday growth of faith between the great seasons.</p></div></li>
+      <li><i data-color="white"></i><div><b>White or Gold</b> <em>Joy and glory</em>
+        <p>Worn in Christmas and Easter Time, on feasts of the Lord (other than of his Passion), of Mary, the angels, and saints who were not martyrs. It stands for light, purity and the Resurrection.</p></div></li>
+      <li><i data-color="red"></i><div><b>Red</b> <em>Blood and fire</em>
+        <p>Worn on Palm Sunday, Good Friday and Pentecost, and on feasts of the apostles and martyrs. It recalls the blood of Christ and those who died for the faith, and the fire of the Holy Spirit.</p></div></li>
+      <li><i data-color="violet"></i><div><b>Violet (Purple)</b> <em>Penance and preparation</em>
+        <p>Worn in Advent and Lent, the seasons of preparation for Christmas and Easter. It may also be worn at Masses for the dead.</p></div></li>
+      <li><i data-color="rose"></i><div><b>Rose</b> <em>Joy within a season of waiting</em>
+        <p>Worn on only two days: Gaudete Sunday (3rd of Advent) and Laetare Sunday (4th of Lent). Both names mean &ldquo;rejoice&rdquo; &mdash; the violet lightens because the feast is close.</p></div></li>
+      <li><i data-color="black"></i><div><b>Black</b> <em>Mourning</em>
+        <p>An option for All Souls&rsquo; Day and funeral Masses. Violet or white is more often seen today, but black keeps its place as the traditional color of mourning.</p></div></li>
+    </ul>
+  </details>
+
+  <details class="card fold">
+    <summary><h2>Where the Colors Come From</h2><span>A short history</span></summary>
+    <ol class="history">
+      <li><b>Early centuries.</b> There was no fixed scheme. Vestments were simply good clothing, most often white.</li>
+      <li><b>Around 1200.</b> Pope Innocent III, in his treatise on the Mass (<i>De sacro altaris mysterio</i>), described the Roman custom of his day: white for feasts, red for martyrs and Pentecost, black for penance and mourning, green for ordinary days, with violet as a variant of black.</li>
+      <li><b>1570.</b> The Roman Missal of Pope St. Pius V made the sequence of white, red, green, violet and black the general rule for the Roman Rite.</li>
+      <li><b>Rose.</b> A lightened violet became the custom for Gaudete and Laetare Sundays, the midpoints of Advent and Lent.</li>
+      <li><b>Today.</b> The <i>General Instruction of the Roman Missal</i> (no. 346) sets the colors now in use. In the United States, violet, white or black may be worn at Masses for the dead.</li>
+    </ol>
+    <p class="fine">The calendar here follows the Ordinary Form for the dioceses of the United States. Your own diocese or parish may keep local feasts that are not shown.</p>
+  </details>
+
+  <a class="support" href="https://ko-fi.com/liturgicalcolors" target="_blank" rel="noopener">&#9829; Support the Creator</a>
+  <p class="fine center">Help keep this app free for everyone</p>
+</main>
+<script src="saints.js"></script>
+<script src="calendar.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
