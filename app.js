@@ -6,7 +6,10 @@
   /* ---------- settings (remembered on this device only) ---------- */
   function load(key, fallback) { try { return localStorage.getItem(key) || fallback; } catch (e) { return fallback; } }
   function save(key, value) { try { localStorage.setItem(key, value); } catch (e) { /* private mode: not remembered */ } }
-  var lang = load('lc.lang', /^es/i.test(navigator.language || '') ? 'es' : 'en');
+  // Spanish is built but switched off for launch (the readings are English only). Set to true to bring back
+  // the language switch; the Spanish wording in i18n.js, saints.js, bios.js and calendar.js is kept up to date.
+  var SPANISH = false;
+  var lang = SPANISH ? load('lc.lang', /^es/i.test(navigator.language || '') ? 'es' : 'en') : 'en';
   if (!I18N[lang]) lang = 'en';
   var ascThu = load('lc.asc', 'sun') === 'thu';
   var S = I18N[lang];
@@ -36,7 +39,11 @@
     $('readingsTitle').textContent = S.readings; $('saintTitle').textContent = S.saint;
     $('colorsTitle').textContent = S.colorsTitle; $('colorsSub').textContent = S.colorsSub;
     $('historyTitle').textContent = S.historyTitle;
-    $('settingsTitle').textContent = S.settings; $('settingsSub').textContent = S.settingsSub;
+    $('settingsTitle').textContent = S.settings; $('settingsSub').textContent = SPANISH ? S.settingsSub : S.settingsSubNoLang;
+    $('langBtn').hidden = !SPANISH; $('langField').hidden = !SPANISH;
+    $('aboutTitle').textContent = S.aboutTitle; $('aboutSub').textContent = S.aboutSub;
+    // our own trusted wording, with links
+    $('aboutBody').innerHTML = S.about.map(function (a) { return '<h3 class="sub">' + esc(a[0]) + '</h3><p>' + a[1] + '</p>'; }).join('');
     $('langLabel').textContent = S.language; $('ascLabel').textContent = S.ascension;
     $('ascSel').options[0].textContent = S.ascSun; $('ascSel').options[1].textContent = S.ascThu;
     $('langSel').value = lang; $('ascSel').value = ascThu ? 'thu' : 'sun';
@@ -88,8 +95,6 @@
       '<p class="muted">' + esc(cycle) + '</p>' +
       citations(d) +
       '<a class="btn" href="' + d.readingsUrl + '" target="_blank" rel="noopener">' + esc(S.readOn(S.shortDate(d, S.months))) + '</a>';
-
-    fillScripture(n);
 
     $('saints').innerHTML = d.saints.length
       ? '<ul class="saintlist">' + d.saints.map(function (s, i) {
@@ -147,20 +152,20 @@
         esc(body.split('/').join(' · ')) +
         ' <span class="muted">(' + esc(S.lectionary) + ' ' + esc(lec) + ')</span>';
       var text = '<div class="scripture" data-cites="' + esc(body) + '"><p class="muted">' + esc(S.loadingText) + '</p></div>';
-      // a day with several Masses folds them up, with the last (the Mass of the day) open
-      return sets.length > 1
-        ? '<details class="mass"' + (i === sets.length - 1 ? ' open' : '') + '><summary>' + head + '</summary>' + text + '</details>'
-        : '<div class="mass"><p>' + head + '</p>' + text + '</div>';
+      // The text stays folded up until asked for, so the page leads with what to wear.
+      return '<div class="mass"><p>' + head + '</p><details class="readfold"><summary>' + esc(S.showReadings) + '</summary>' + text + '</details></div>';
     }).join('') + '</div><p class="fine">' + esc(S.citeSource) + '</p>';
   }
 
-  // Fill in the Bible text for the citations on screen, loading each book the first time it is needed.
-  function fillScripture(n) {
-    Array.prototype.forEach.call(document.querySelectorAll('#readings .scripture'), function (box) {
-      var list = SC.passages(box.getAttribute('data-cites'));
-      var codes = list.filter(function (p) { return p.parsed; }).map(function (p) { return p.parsed.code; });
+  // Fill in the Bible text of one opened reading, loading each book the first time it is needed.
+  function fillScripture(box) {
+    if (box.getAttribute('data-filled')) return;
+    box.setAttribute('data-filled', '1');
+    var list = SC.passages(box.getAttribute('data-cites'));
+    var codes = list.filter(function (p) { return p.parsed; }).map(function (p) { return p.parsed.code; });
+    (function () {
       Promise.all(codes.map(SC.load)).then(function () {
-        if (current !== n || !box.isConnected) return;
+        if (!box.isConnected) return;
         box.innerHTML = list.map(function (p) {
           var vs = p.parsed ? SC.verses(p.parsed) : [], lastCh = null;
           var body = vs.length ? '<p class="verses">' + vs.map(function (v) {
@@ -171,10 +176,15 @@
             body + (p.parsed && p.parsed.approx && vs.length ? '<p class="fine">' + esc(S.approxNote) + '</p>' : '') + '</div>';
         }).join('');
       }, function () {
+        box.removeAttribute('data-filled');
         if (box.isConnected) box.innerHTML = '<p class="muted">' + esc(S.noText) + '</p>';
       });
-    });
+    })();
   }
+  // "toggle" does not bubble, so listen on the way down
+  $('readings').addEventListener('toggle', function (e) {
+    if (e.target.open && e.target.classList.contains('readfold')) fillScripture(e.target.querySelector('.scripture'));
+  }, true);
 
   function dayButton(w, selected, withName) {
     return '<button data-n="' + w.n + '"' + (w.n === selected ? ' aria-current="date"' : '') +

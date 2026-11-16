@@ -151,3 +151,14 @@ dialog .label { color: var(--muted); opacity: 1; }
 .month button { min-height: 52px; }
 .month button b { font-size: 1.05rem; font-weight: 500; }
 h3.sub { margin: 22px 0 10px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 1rem; font-weight: 600; }
+
+/* folded reading text */
+.readfold { margin-top: 6px; }
+.readfold > summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: .95rem; padding: 6px 0; }
+
+/* about */
+.aboutbody h3.sub:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.aboutbody h3.sub { margin: 16px 0 4px; padding-top: 14px; }
+.aboutbody p { font-size: .95rem; color: var(--muted); }
+.aboutbody a { color: var(--accent); }
+[hidden] { display: none !important; }
