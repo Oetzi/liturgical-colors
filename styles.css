@@ -185,6 +185,7 @@ h3.sub { margin: 22px 0 10px; padding-top: 16px; border-top: 1px solid var(--lin
 .legend i { width: 10px; height: 10px; }
 
 /* daytime / evening vigil switch on the color card */
-.massmode { display: flex; gap: 4px; margin: 0 0 16px; padding: 4px; border-radius: 999px; background: rgba(0, 0, 0, .14); width: fit-content; max-width: 100%; }
-.massmode button { border: 0; background: transparent; color: inherit; padding: 8px 14px; border-radius: 999px; font-size: .88rem; font-weight: 600; min-height: 40px; opacity: .85; }
+/* Two equal halves that always sit side by side, however narrow the screen or large the text. */
+.massmode { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 0 0 16px; padding: 4px; border-radius: 999px; background: rgba(0, 0, 0, .14); width: 100%; max-width: 340px; }
+.massmode button { -webkit-appearance: none; appearance: none; font-family: inherit; border: 0; margin: 0; background: transparent; color: inherit; padding: 8px 6px; border-radius: 999px; font-size: clamp(.72rem, 3.5vw, .88rem); font-weight: 600; line-height: 1.2; min-height: 40px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85; }
 .massmode button[aria-pressed="true"] { background: rgba(255, 255, 255, .92); color: #1f2430; opacity: 1; }

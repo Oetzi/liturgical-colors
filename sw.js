@@ -2,7 +2,7 @@
  * Offline support. Network first, so a visitor who is online always gets the latest files;
  * the cached copy is used only when the network is unavailable.
  */
-var CACHE = 'liturgical-colors-v7';
+var CACHE = 'liturgical-colors-v8';
 var FILES = ['./', 'index.html', 'styles.css', 'app.js', 'calendar.js', 'saints.js', 'i18n.js', 'bios.js', 'readings-2026.js', 'readings-2027.js', 'scripture.js',
   'manifest.webmanifest', 'icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 
@@ -18,7 +18,8 @@ self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request).then(function (res) {
+    // "no-cache" makes the browser check with the server, so a visitor never gets new code with old styles
+    fetch(e.request.url, { cache: 'no-cache' }).then(function (res) {
       if (res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(e.request, copy); }); }
       return res;
     }).catch(function () {
