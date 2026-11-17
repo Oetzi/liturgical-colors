@@ -13,6 +13,7 @@
   if (!I18N[lang]) lang = 'en';
   var ascThu = load('lc.asc', 'sun') === 'thu';
   var S = I18N[lang];
+  var eveMode = null; // Saturday / holy-day eve: true = evening vigil Mass, false = daytime, null = not chosen yet
   var current, monthAnchor; // monthAnchor: day number of the 1st of the month shown in the month view
 
   function esc(s) {
@@ -69,36 +70,52 @@
     $('datetext').textContent = longDate(d);
     $('date').value = d.iso;
     $('today').hidden = n === now;
-    document.title = S.colors[d.color] + ' – ' + longDate(d) + ' | ' + S.title;
+    // An evening Mass before a Sunday or holy day of obligation is the vigil of that day: it takes tomorrow's
+    // color and readings. On those days the card offers a switch; "m" is the Mass being shown.
+    var next = getDay(n + 1);
+    var canEve = (next.dow === 0 || next.obligation) && d.season !== 'triduum';
+    // with no choice made yet, today's page opens on the evening Mass from 4 pm
+    var eve = canEve && (eveMode === null ? (n === now && new Date().getHours() >= 16) : eveMode);
+    var m = eve ? next : d;
 
-    var notes = d.notes.slice();
-    d.saints.forEach(function (s) {
+    document.title = S.colors[m.color] + ' – ' + longDate(d) + ' | ' + S.title;
+
+    var notes = m.notes.slice();
+    if (eve) notes.unshift(next.dow === 0 ? S.eveNoteSunday : S.eveNoteHoly);
+    if (!eve) d.saints.forEach(function (s) {
       if (s.status === 'optional' && s.color !== d.color) notes.push(S.ifCelebrated(S.colors[s.color], s.name));
     });
     var hero = $('hero');
-    hero.setAttribute('data-color', d.color);
+    hero.setAttribute('data-color', m.color);
     hero.innerHTML =
-      '<p class="pill">' + esc(d.seasonName) + '</p>' +
+      '<p class="pill">' + esc(m.seasonName) + '</p>' +
       '<button id="share" class="sharebtn">' + esc(S.share) + '</button>' +
+      (canEve ? '<div class="massmode" role="group" aria-label="' + esc(S.massChoice) + '">' +
+        '<button data-eve="0" aria-pressed="' + !eve + '">' + esc(S.massDay) + '</button>' +
+        '<button data-eve="1" aria-pressed="' + eve + '">' + esc(S.massEve) + '</button></div>' : '') +
       '<p class="label">' + esc(S.wear) + '</p>' +
-      '<p class="wear">' + esc(S.colors[d.color]) + '</p>' +
-      '<p class="tip">' + esc(S.tips[d.color]) + '</p>' +
+      '<p class="wear">' + esc(S.colors[m.color]) + '</p>' +
+      '<p class="tip">' + esc(S.tips[m.color]) + '</p>' +
       '<hr>' +
-      '<p class="label">' + esc(S.celebration) + '</p>' +
-      '<p class="celebration">' + esc(d.name) + '</p>' +
-      '<p class="rank">' + esc(d.rank) + (d.obligation ? ' · ' + esc(S.obligation) : '') + '</p>' +
-      aboutLink(d) +
+      '<p class="label">' + esc(eve ? S.celebrationEve : S.celebration) + '</p>' +
+      '<p class="celebration">' + esc(m.name) + '</p>' +
+      '<p class="rank">' + esc(m.rank) + (m.obligation ? ' · ' + esc(S.obligation) : '') + '</p>' +
+      aboutLink(m) +
       notes.map(function (t) { return '<p class="note">' + esc(t) + '</p>'; }).join('');
     $('share').onclick = function () { share(d); };
+    hero.onclick = function (e) {
+      var b = e.target.closest('button[data-eve]');
+      if (b) { eveMode = b.getAttribute('data-eve') === '1'; render(current); }
+    };
 
-    var cycle = d.proper ? S.proper
-      : d.dow === 0 ? S.sundayYear + d.sundayCycle
-        : S.weekdayYear + d.weekdayCycle + ' (' + S.sundayCycle + d.sundayCycle + ')';
+    var cycle = m.proper ? S.proper
+      : m.dow === 0 ? S.sundayYear + m.sundayCycle
+        : S.weekdayYear + m.weekdayCycle + ' (' + S.sundayCycle + m.sundayCycle + ')';
     $('readings').innerHTML =
-      '<p class="strong">' + esc(d.name) + '</p>' +
+      '<p class="strong">' + esc(m.name) + (eve ? ' <span class="muted">· ' + esc(S.massEve) + '</span>' : '') + '</p>' +
       '<p class="muted">' + esc(cycle) + '</p>' +
-      citations(d) +
-      '<a class="btn" href="' + d.readingsUrl + '" target="_blank" rel="noopener">' + esc(S.readOn(S.shortDate(d, S.months))) + '</a>';
+      citations(m, eve) +
+      '<a class="btn" href="' + m.readingsUrl + '" target="_blank" rel="noopener">' + esc(S.readOn(S.shortDate(m, S.months))) + '</a>';
 
     $('saints').innerHTML = d.saints.length
       ? '<ul class="saintlist">' + d.saints.map(function (s, i) {
@@ -145,10 +162,15 @@
   }
 
   // Reading citations, where we have them (2027). Each Mass of the day is "Label=citations|lectionary".
-  function citations(d) {
+  function citations(d, eve) {
     var raw = (ascThu && READINGS[d.iso + 'T']) || READINGS[d.iso];
     if (!raw) return '';
     var sets = raw.split(';;');
+    // for an evening vigil Mass, a day that has its own Vigil readings shows only those
+    if (eve) {
+      var vigil = sets.filter(function (s) { return /^Vigil=/.test(s); });
+      if (vigil.length) sets = vigil;
+    }
     return '<div class="masses">' + sets.map(function (set, i) {
       var bar = set.lastIndexOf('|'), body = set.slice(0, bar), lec = set.slice(bar + 1), label = '';
       var eq = body.indexOf('=');
@@ -276,6 +298,7 @@
   /* ---------- navigation ---------- */
   function go(n) {
     if (n === current) return;
+    eveMode = null; // each day starts from its own default
     var hash = n === L.today() ? '' : '#' + L.iso(n);
     history.replaceState(null, '', location.pathname + location.search + hash);
     render(n);
@@ -297,7 +320,7 @@
   $('langBtn').onclick = function () { setLang(lang === 'en' ? 'es' : 'en'); };
   $('langSel').onchange = function () { setLang(this.value); };
   $('ascSel').onchange = function () { ascThu = this.value === 'thu'; save('lc.asc', this.value); render(current); };
-  window.addEventListener('hashchange', function () { render(fromHash()); });
+  window.addEventListener('hashchange', function () { eveMode = null; render(fromHash()); });
   document.addEventListener('keydown', function (e) {
     if (/INPUT|SELECT/.test(e.target.tagName) || $('saintDialog').open) return;
     if (e.key === 'ArrowLeft') go(current - 1);

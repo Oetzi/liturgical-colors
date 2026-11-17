@@ -9,6 +9,9 @@
     shortDate: function (d, months) { return months[d.month - 1] + ' ' + d.day; },
     today: 'Today', backToday: 'Back to today', prevDay: 'Previous day', nextDay: 'Next day', pickDate: 'Pick a date',
     wear: 'Wear', celebration: 'Celebration', obligation: 'Holy day of obligation',
+    massChoice: 'Which Mass', massDay: 'Daytime Mass', massEve: 'Evening vigil Mass', celebrationEve: 'Vigil of',
+    eveNoteSunday: 'A Saturday evening Mass is the vigil of Sunday: it uses Sunday’s color and readings, and counts as Sunday Mass.',
+    eveNoteHoly: 'An evening Mass today is the vigil of tomorrow’s holy day: it uses tomorrow’s color and readings, and fulfils the obligation.',
     colors: { green: 'Green', white: 'White or Gold', red: 'Red', violet: 'Violet (Purple)', rose: 'Rose', black: 'Black' },
     tips: {
       green: 'Try a green tie, scarf, sweater or dress.',
@@ -76,6 +79,9 @@
     shortDate: function (d, months) { return d.day + ' de ' + months[d.month - 1]; },
     today: 'Hoy', backToday: 'Volver a hoy', prevDay: 'Día anterior', nextDay: 'Día siguiente', pickDate: 'Elegir una fecha',
     wear: 'Viste de', celebration: 'Celebración', obligation: 'Fiesta de precepto',
+    massChoice: 'Qué Misa', massDay: 'Misa del día', massEve: 'Misa vespertina de vigilia', celebrationEve: 'Vigilia de',
+    eveNoteSunday: 'La Misa del sábado por la tarde es la vigilia del domingo: usa el color y las lecturas del domingo, y vale como Misa dominical.',
+    eveNoteHoly: 'La Misa de esta tarde es la vigilia de la fiesta de precepto de mañana: usa su color y sus lecturas, y cumple el precepto.',
     colors: { green: 'Verde', white: 'Blanco o dorado', red: 'Rojo', violet: 'Morado', rose: 'Rosa', black: 'Negro' },
     tips: {
       green: 'Prueba una corbata, bufanda, suéter o vestido verde.',

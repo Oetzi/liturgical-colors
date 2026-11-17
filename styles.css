@@ -183,3 +183,8 @@ h3.sub { margin: 22px 0 10px; padding-top: 16px; border-top: 1px solid var(--lin
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: .86rem; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 10px; height: 10px; }
+
+/* daytime / evening vigil switch on the color card */
+.massmode { display: flex; gap: 4px; margin: 0 0 16px; padding: 4px; border-radius: 999px; background: rgba(0, 0, 0, .14); width: fit-content; max-width: 100%; }
+.massmode button { border: 0; background: transparent; color: inherit; padding: 8px 14px; border-radius: 999px; font-size: .88rem; font-weight: 600; min-height: 40px; opacity: .85; }
+.massmode button[aria-pressed="true"] { background: rgba(255, 255, 255, .92); color: #1f2430; opacity: 1; }
