@@ -48,6 +48,10 @@
     $('ascSel').options[0].textContent = S.ascSun; $('ascSel').options[1].textContent = S.ascThu;
     $('langSel').value = lang; $('ascSel').value = ascThu ? 'thu' : 'sun';
     $('saintClose').textContent = S.close;
+    $('legend').innerHTML = ['green', 'white', 'red', 'violet', 'rose'].map(function (c) {
+      return '<span><i data-color="' + c + '"></i>' + esc(S.colors[c]) + '</span>';
+    }).join('');
+    $('legend').setAttribute('aria-label', S.legend);
     $('wearNote').textContent = S.wearNote; $('fine').textContent = S.fine;
     $('meanings').innerHTML = S.meanings.map(function (m) {
       return '<li><i data-color="' + m[0] + '"></i><div><b>' + esc(m[1]) + '</b> <em>' + esc(m[2]) + '</em><p>' + esc(m[3]) + '</p></div></li>';
@@ -110,7 +114,8 @@
           : '<li><div class="saintrow">' + inner + '</div></li>';
       }).join('') + '</ul>'
       : '<p class="muted">' + esc(S.noSaint) + '</p>';
-    if (d.saints.some(function (s) { return s.m; })) {
+    // the color card already links to the Vatican page when the day's celebration is the saint
+    if (!(d.about && d.about.kind === 'saint') && d.saints.some(function (s) { return s.m; })) {
       var first = d.saints.filter(function (s) { return s.m; })[0];
       $('saints').innerHTML += '<a class="btn" href="' + saintsUrl(first.m, first.d) + '" target="_blank" rel="noopener">' + esc(S.saintsMore) + ' →</a>';
     }
@@ -148,31 +153,45 @@
       var bar = set.lastIndexOf('|'), body = set.slice(0, bar), lec = set.slice(bar + 1), label = '';
       var eq = body.indexOf('=');
       if (eq > 0) { label = body.slice(0, eq); body = body.slice(eq + 1); }
-      var head = (label ? '<b>' + esc(S.massLabels[label] || label) + ':</b> ' : '') +
-        esc(body.split('/').join(' · ')) +
-        ' <span class="muted">(' + esc(S.lectionary) + ' ' + esc(lec) + ')</span>';
+      var list = SC.passages(body), roles = roleLabels(list);
+      var head = (label ? '<h3 class="masslabel">' + esc(S.massLabels[label] || label) + '</h3>' : '') +
+        '<dl class="citelist">' + list.map(function (p, k) {
+          return '<div><dt>' + esc(roles[k]) + '</dt><dd>' + esc(p.whole) + '</dd></div>';
+        }).join('') + '</dl>';
       var text = '<div class="scripture" data-cites="' + esc(body) + '"><p class="muted">' + esc(S.loadingText) + '</p></div>';
       // The text stays folded up until asked for, so the page leads with what to wear.
-      return '<div class="mass"><p>' + head + '</p><details class="readfold"><summary>' + esc(S.showReadings) + '</summary>' + text + '</details></div>';
+      return '<div class="mass">' + head + '<details class="readfold"><summary>' + esc(S.showReadings) + '</summary>' + text + '</details>' +
+        '<p class="fine">' + esc(S.lectionary) + ' ' + esc(lec) + '</p></div>';
     }).join('') + '</div><p class="fine">' + esc(S.citeSource) + '</p>';
+  }
+
+  // "First Reading", "Second Reading", "Gospel" ... for the passages of one Mass.
+  function roleLabels(list) {
+    var others = list.filter(function (p) { return !(p.parsed && p.parsed.gospel); }).length, seen = 0;
+    return list.map(function (p) {
+      if (p.parsed && p.parsed.gospel) return S.gospel;
+      seen++;
+      if (others === 1) return S.reading;
+      return seen === 1 ? S.firstReading : seen === 2 ? S.secondReading : S.readingN(seen);
+    });
   }
 
   // Fill in the Bible text of one opened reading, loading each book the first time it is needed.
   function fillScripture(box) {
     if (box.getAttribute('data-filled')) return;
     box.setAttribute('data-filled', '1');
-    var list = SC.passages(box.getAttribute('data-cites'));
-    var codes = list.filter(function (p) { return p.parsed; }).map(function (p) { return p.parsed.code; });
+    var list = SC.passages(box.getAttribute('data-cites')), roles = roleLabels(list);
+    var codes =list.filter(function (p) { return p.parsed; }).map(function (p) { return p.parsed.code; });
     (function () {
       Promise.all(codes.map(SC.load)).then(function () {
         if (!box.isConnected) return;
-        box.innerHTML = list.map(function (p) {
+        box.innerHTML = list.map(function (p, k) {
           var vs = p.parsed ? SC.verses(p.parsed) : [], lastCh = null;
           var body = vs.length ? '<p class="verses">' + vs.map(function (v) {
             var mark = v.ch !== lastCh ? v.ch + ':' + v.v : v.v; lastCh = v.ch;
             return '<sup>' + mark + '</sup>' + esc(v.text);
           }).join(' ') + '</p>' : '<p class="muted">' + esc(S.noText) + '</p>';
-          return '<div class="passage"><h3><span>' + esc(p.parsed && p.parsed.gospel ? S.gospel : S.reading) + '</span>' + esc(p.cite) + '</h3>' +
+          return '<div class="passage"><h3><span>' + esc(roles[k]) + '</span>' + esc(p.cite) + '</h3>' +
             body + (p.parsed && p.parsed.approx && vs.length ? '<p class="fine">' + esc(S.approxNote) + '</p>' : '') + '</div>';
         }).join('');
       }, function () {

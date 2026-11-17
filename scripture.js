@@ -21,6 +21,27 @@
     Heb: 'HEB', Jas: 'JAM', '1 Pt': '1PE', '2 Pt': '2PE', '1 Jn': '1JO', '2 Jn': '2JO', '3 Jn': '3JO',
     Jude: 'JUD', Rv: 'REV'
   };
+  // Full English names, for showing a citation in words rather than abbreviations.
+  var NAMES = {
+    Gn: 'Genesis', Ex: 'Exodus', Lv: 'Leviticus', Nm: 'Numbers', Dt: 'Deuteronomy', Jos: 'Joshua', Jgs: 'Judges', Ru: 'Ruth',
+    '1 Sm': '1 Samuel', '2 Sm': '2 Samuel', '1 Kgs': '1 Kings', '2 Kgs': '2 Kings', '1 Chr': '1 Chronicles', '2 Chr': '2 Chronicles',
+    Ezr: 'Ezra', Neh: 'Nehemiah', Tb: 'Tobit', Jdt: 'Judith', Est: 'Esther', '1 Mc': '1 Maccabees', '2 Mc': '2 Maccabees',
+    Jb: 'Job', Ps: 'Psalm', Pss: 'Psalms', Prv: 'Proverbs', Eccl: 'Ecclesiastes', Sg: 'Song of Songs', Wis: 'Wisdom', Sir: 'Sirach',
+    Is: 'Isaiah', Jer: 'Jeremiah', Lam: 'Lamentations', Bar: 'Baruch', Ez: 'Ezekiel', Dn: 'Daniel', Hos: 'Hosea', Jl: 'Joel',
+    Am: 'Amos', Ob: 'Obadiah', Jon: 'Jonah', Mi: 'Micah', Na: 'Nahum', Hb: 'Habakkuk', Zep: 'Zephaniah', Hg: 'Haggai',
+    Zec: 'Zechariah', Mal: 'Malachi', Mt: 'Matthew', Mk: 'Mark', Lk: 'Luke', Jn: 'John', Acts: 'Acts', Rom: 'Romans',
+    '1 Cor': '1 Corinthians', '2 Cor': '2 Corinthians', Gal: 'Galatians', Eph: 'Ephesians', Phil: 'Philippians', Col: 'Colossians',
+    '1 Thes': '1 Thessalonians', '2 Thes': '2 Thessalonians', '1 Tm': '1 Timothy', '2 Tm': '2 Timothy', Ti: 'Titus', Phlm: 'Philemon',
+    Heb: 'Hebrews', Jas: 'James', '1 Pt': '1 Peter', '2 Pt': '2 Peter', '1 Jn': '1 John', '2 Jn': '2 John', '3 Jn': '3 John',
+    Jude: 'Jude', Rv: 'Revelation'
+  };
+  // "Mt 1:1-25 or 1:18-25" -> "Matthew 1:1-25 or 1:18-25"; each option after "or" is expanded too.
+  function fullName(cite) {
+    return cite.split(/ or /).map(function (alt) {
+      var m = /^((?:[1-3] )?[A-Za-z]+) (.+)$/.exec(alt.trim());
+      return m && NAMES[m[1]] ? NAMES[m[1]] + ' ' + m[2] : alt.trim();
+    }).join(' or ');
+  }
   var SINGLE = { OBA: 1, PHM: 1, '2JO': 1, '3JO': 1, JUD: 1 };
   var GOSPELS ={ MAT: 1, MAR: 1, LUK: 1, JOH: 1 };
   // Books translated from a different ancient text, where verses will not always line up.
@@ -134,7 +155,8 @@
   function passages(cites) {
     return cites.split(/ or, in Year/)[0].split('/').map(function (part) {
       var first = part.split(/ or /)[0].trim();
-      return { cite: first, parsed: parse(first) };
+      // whole: the reading with its options, in words; cite: the option whose text is shown
+      return { cite: fullName(first), whole: fullName(part.trim()), parsed: parse(first) };
     });
   }
 
@@ -158,5 +180,5 @@
     return out;
   }
 
-  root.LitScripture = { parse: parse, verses: verses, passages: passages, load: load, allFiles: allFiles };
+  root.LitScripture = { parse: parse, verses: verses, passages: passages, load: load, allFiles: allFiles, fullName: fullName };
 })(typeof window !== 'undefined' ? window : globalThis);

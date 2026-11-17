@@ -23,7 +23,8 @@
     readings: 'Daily Readings', sundayYear: 'Sunday readings: Year ', weekdayYear: 'Weekday readings: Year ', sundayCycle: 'Sunday cycle: Year ',
     proper: 'This celebration has its own readings.',
     lectionary: 'Lectionary', massLabels: {}, reading: 'Reading', gospel: 'Gospel',
-    citeSource: 'Citations: USCCB Liturgical Calendar; the psalm is not listed. Text: World English Bible (public domain). The wording differs from the Lectionary read at Mass, and where a reading has options the first is shown.',
+    firstReading: 'First Reading', secondReading: 'Second Reading', readingN: function (n) { return 'Reading ' + n; },
+    citeSource: 'The text shown is the World English Bible, not the translation read at Mass. The psalm is not listed. More in About, below.',
     approxNote: 'Verse numbering in this book can differ from the Lectionary.', noText: 'Text not available for this passage.', loadingText: 'Loading the text…',
     readOn: function (date) { return 'Read the readings for ' + date + ' on USCCB →'; },
     saint: 'Saint of the Day', noSaint: 'No saint is assigned to this date on the general calendar.',
@@ -43,8 +44,8 @@
     ],
     ascension: 'Ascension of the Lord', ascSun: 'Sunday (most US dioceses)', ascThu: 'Thursday (Boston, Hartford, New York, Omaha, Philadelphia provinces)',
     colorsTitle: 'The Colors: Meanings and History', colorsSub: 'What each color signifies and where it comes from',
-    aboutSaint: function (name) { return 'About ' + name + ' (Vatican News)'; },
-    aboutSeason: function (season) { return 'About ' + season + ' (USCCB)'; },
+    aboutSaint: function () { return 'About this celebration · Vatican News'; },
+    aboutSeason: function (season) { return 'About ' + season + ' · USCCB'; },
     saintsMore: 'More about the saints of this date on Vatican News',
     meanings: [
       ['green', 'Green', 'Hope and growth', 'Worn through Ordinary Time, the longest stretch of the year. It is the color of living things, for the steady, everyday growth of faith between the great seasons.'],
@@ -54,6 +55,7 @@
       ['rose', 'Rose', 'Joy within a season of waiting', 'Worn on only two days: Gaudete Sunday (3rd of Advent) and Laetare Sunday (4th of Lent). Both names mean “rejoice” — the violet lightens because the feast is close.'],
       ['black', 'Black', 'Mourning', 'An option for All Souls’ Day and funeral Masses. Violet or white is more often seen today, but black keeps its place as the traditional color of mourning.']
     ],
+    legend: 'Color of each day',
     wearNote: 'The liturgical color is what the priest wears. Nobody in the pews is required to match it — it is simply a way to enter into the day. Whatever the color, dress modestly and with care.',
     historyTitle: 'Where the Colors Come From',
     history: [
@@ -88,7 +90,8 @@
     readings: 'Lecturas del día', sundayYear: 'Lecturas dominicales: ciclo ', weekdayYear: 'Lecturas feriales: año ', sundayCycle: 'ciclo dominical ',
     proper: 'Esta celebración tiene lecturas propias.',
     lectionary: 'Leccionario', reading: 'Lectura', gospel: 'Evangelio',
-    citeSource: 'Citas: Calendario Litúrgico de la USCCB; no se indica el salmo. Texto en inglés: World English Bible (dominio público). La redacción difiere del Leccionario que se lee en la Misa y, cuando una lectura tiene opciones, se muestra la primera.',
+    firstReading: 'Primera lectura', secondReading: 'Segunda lectura', readingN: function (n) { return 'Lectura ' + n; },
+    citeSource: 'El texto mostrado es la World English Bible (en inglés), no la traducción que se lee en la Misa. No se indica el salmo. Más información en «Acerca de», abajo.',
     approxNote: 'La numeración de los versículos de este libro puede diferir del Leccionario.', noText: 'Texto no disponible para este pasaje.', loadingText: 'Cargando el texto…',
     massLabels: { Vigil: 'Vigilia', Day: 'Día', Night: 'Noche', Dawn: 'Aurora', Procession: 'Procesión', Mass: 'Misa', 'Easter Vigil': 'Vigilia Pascual', 'Evening Mass of the Lord’s Supper': 'Misa vespertina de la Cena del Señor' },
     readOn: function (date) { return 'Leer las lecturas del ' + date + ' en USCCB →'; },
@@ -109,8 +112,8 @@
     ],
     ascension: 'Ascensión del Señor', ascSun: 'Domingo (la mayoría de las diócesis de EE. UU.)', ascThu: 'Jueves (provincias de Boston, Hartford, Nueva York, Omaha y Filadelfia)',
     colorsTitle: 'Los colores: significado e historia', colorsSub: 'Qué significa cada color y de dónde viene',
-    aboutSaint: function (name) { return 'Sobre ' + name + ' (Vatican News)'; },
-    aboutSeason: function (season) { return 'Sobre ' + season + ' (USCCB, en inglés)'; },
+    aboutSaint: function () { return 'Sobre esta celebración · Vatican News'; },
+    aboutSeason: function (season) { return 'Sobre ' + season + ' · USCCB (en inglés)'; },
     saintsMore: 'Más sobre los santos de esta fecha en Vatican News',
     meanings: [
       ['green', 'Verde', 'Esperanza y crecimiento', 'Se usa durante el Tiempo Ordinario, el período más largo del año. Es el color de lo que vive y crece: el crecimiento constante y cotidiano de la fe entre los grandes tiempos.'],
@@ -120,6 +123,7 @@
       ['rose', 'Rosa', 'Alegría en medio de la espera', 'Se usa solo dos días: el Domingo Gaudete (III de Adviento) y el Domingo Laetare (IV de Cuaresma). Ambos nombres significan «alégrense»: el morado se aclara porque la fiesta está cerca.'],
       ['black', 'Negro', 'Luto', 'Es una opción para el Día de los Fieles Difuntos y las Misas exequiales. Hoy se ve más el morado o el blanco, pero el negro conserva su lugar como color tradicional del luto.']
     ],
+    legend: 'Color de cada día',
     wearNote: 'El color litúrgico es el que viste el sacerdote. Nadie en la asamblea está obligado a combinarlo: es simplemente una manera de vivir el día. Sea cual sea el color, viste con modestia y cuidado.',
     historyTitle: 'De dónde vienen los colores',
     history: [
