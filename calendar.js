@@ -307,7 +307,8 @@
     });
     if (n === E + 68) out.push(Object.assign({}, MOVABLE.sacredHeart));
     if (n === E + 69) out.push(Object.assign({}, MOVABLE.immHeart));
-    if (n === E + 50) out.push(Object.assign({}, MOVABLE.motherChurch));
+    // Mary, Mother of the Church takes precedence over another memorial on the same day (e.g. St. Boniface, 2028)
+    if (n === E + 50) out.push(Object.assign({}, MOVABLE.motherChurch, { prec: 9.5 }));
     if (p.m === 11 && dow(n) === 4 && p.d >= 22 && p.d <= 28) out.push(Object.assign({}, MOVABLE.thanks));
     return out;
   }

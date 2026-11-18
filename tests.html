@@ -124,6 +124,11 @@ for (var q = LitCal.dn(2026, 1, 1); q <= LitCal.dn(2028, 12, 31); q++) {
   if (!z.name || /undefined/.test(z.name + z.rank + z.seasonName + z.saints.map(function (x) { return x.name + x.rank; }).join())) badEs++;
 }
 check('Spanish: every day 2026-2028 has complete wording', badEs === 0, badEs + ' bad days');
+var mc = day('2028-06-05');
+check('Mother of the Church outranks St. Boniface (2028)', mc.color === 'white' && /Mother of the Church/.test(mc.name) &&
+  mc.saints.some(function (x) { return /Boniface/.test(x.name) && x.status === 'superseded'; }), mc.color + ' / ' + mc.name);
+check('Laetare and Gaudete 2028 are rose', day('2028-03-26').color === 'rose' && day('2028-12-17').color === 'rose', '');
+check('Easter 2028 is April 16', day('2028-04-16').name.indexOf('Easter Sunday') >= 0, day('2028-04-16').name);
 // every day for 60 years must resolve without error, and every Sunday number must be sane
 var bad = 0;
 for (var n = LitCal.dn(2000, 1, 1); n <= LitCal.dn(2060, 12, 31); n++) {

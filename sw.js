@@ -2,8 +2,8 @@
  * Offline support. Network first, so a visitor who is online always gets the latest files;
  * the cached copy is used only when the network is unavailable.
  */
-var CACHE = 'liturgical-colors-v8';
-var FILES = ['./', 'index.html', 'styles.css', 'app.js', 'calendar.js', 'saints.js', 'i18n.js', 'bios.js', 'readings-2026.js', 'readings-2027.js', 'scripture.js',
+var CACHE = 'liturgical-colors-v9';
+var FILES = ['./', 'index.html', 'styles.css', 'app.js', 'calendar.js', 'saints.js', 'i18n.js', 'bios.js', 'readings-2026.js', 'readings-2027.js', 'readings-2028.js', 'scripture.js',
   'manifest.webmanifest', 'icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', function (e) {
