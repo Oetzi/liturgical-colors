@@ -1,8 +1,8 @@
 /* All interface wording, English and Spanish. */
 (typeof window !== 'undefined' ? window : globalThis).LITCAL_I18N = {
   en: {
-    title: 'Liturgical Colors', tag: 'What to wear to Mass', support: 'Support', supportLong: 'Support the Creator',
-    supportFine: 'Help keep this app free for everyone',
+    title: 'Liturgical Colors', tag: 'What to wear to Mass', support: 'Give', supportLong: 'Give to St. Vincent de Paul Parish',
+    supportFine: 'Donations go to St. Vincent de Paul Parish, Wheeling, WV',
     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     wdShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     date: function (d, months) { return months[d.month - 1] + ' ' + d.day + ', ' + d.year; },
@@ -43,7 +43,7 @@
       ['The readings', 'Citations come from the USCCB liturgical calendar. The text shown is the World English Bible, Catholic edition, which is in the public domain. It is <b>not</b> the translation proclaimed at Mass in the United States, so the wording will differ; the link under each day goes to the official text on the USCCB website. Where a reading has options, the first is shown, and the responsorial psalm is not included. “World English Bible” is a trademark of eBible.org.'],
       ['Saints', 'Links about saints and feasts go to Vatican News, the Holy See’s news service. The short biographies inside the app were written for it.'],
       ['Privacy', 'There are no accounts, no advertising and no tracking. Your settings are stored only on your own device. After the first visit the app works without an internet connection.'],
-      ['Support and contact', 'The app is free. If it is useful to you, you can <a href="https://ko-fi.com/liturgicalcolors" target="_blank" rel="noopener">support it on Ko-fi</a>, which is also the place to send a correction or suggestion.']
+      ['Giving', 'The app is free. If it is useful to you, please consider a gift to <a href="https://svdpwheeling.flocknote.com/give/38569" target="_blank" rel="noopener">St. Vincent de Paul Parish in Wheeling, West Virginia</a>, through the parish’s own giving page.']
     ],
     ascension: 'Ascension of the Lord', ascSun: 'Sunday (most US dioceses)', ascThu: 'Thursday (Boston, Hartford, New York, Omaha, Philadelphia provinces)',
     colorsTitle: 'The Colors: Meanings and History', colorsSub: 'What each color signifies and where it comes from',
@@ -71,8 +71,8 @@
     fine: 'The calendar follows the Ordinary Form for the dioceses of the United States. Your own diocese or parish may keep local feasts that are not shown.'
   },
   es: {
-    title: 'Colores Litúrgicos', tag: 'Qué vestir para la Misa', support: 'Apoyar', supportLong: 'Apoya al creador',
-    supportFine: 'Ayuda a mantener esta aplicación gratuita para todos',
+    title: 'Colores Litúrgicos', tag: 'Qué vestir para la Misa', support: 'Donar', supportLong: 'Dona a la parroquia San Vicente de Paúl',
+    supportFine: 'Los donativos van a la parroquia San Vicente de Paúl, Wheeling, Virginia Occidental',
     months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
     wdShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
     date: function (d, months) { return d.day + ' de ' + months[d.month - 1] + ' de ' + d.year; },
@@ -114,7 +114,7 @@
       ['Las lecturas', 'Las citas provienen del calendario litúrgico de la USCCB. El texto mostrado es la World English Bible, edición católica, de dominio público y en inglés. <b>No</b> es la traducción que se proclama en la Misa, por lo que la redacción difiere; el enlace de cada día lleva al texto oficial en el sitio de la USCCB. Cuando una lectura tiene opciones, se muestra la primera, y no se incluye el salmo responsorial. «World English Bible» es una marca de eBible.org.'],
       ['Santos', 'Los enlaces sobre santos y fiestas llevan a Vatican News, el servicio de noticias de la Santa Sede. Las breves biografías de la aplicación se escribieron para ella.'],
       ['Privacidad', 'No hay cuentas, publicidad ni seguimiento. Tus ajustes se guardan solo en tu dispositivo. Después de la primera visita, la aplicación funciona sin conexión a internet.'],
-      ['Apoyo y contacto', 'La aplicación es gratuita. Si te resulta útil, puedes <a href="https://ko-fi.com/liturgicalcolors" target="_blank" rel="noopener">apoyarla en Ko-fi</a>, que también es el lugar para enviar una corrección o sugerencia.']
+      ['Donativos', 'La aplicación es gratuita. Si te resulta útil, considera hacer un donativo a la <a href="https://svdpwheeling.flocknote.com/give/38569" target="_blank" rel="noopener">parroquia San Vicente de Paúl en Wheeling, Virginia Occidental</a>, a través de la página de donativos de la propia parroquia.']
     ],
     ascension: 'Ascensión del Señor', ascSun: 'Domingo (la mayoría de las diócesis de EE. UU.)', ascThu: 'Jueves (provincias de Boston, Hartford, Nueva York, Omaha y Filadelfia)',
     colorsTitle: 'Los colores: significado e historia', colorsSub: 'Qué significa cada color y de dónde viene',
