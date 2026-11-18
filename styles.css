@@ -189,3 +189,11 @@ h3.sub { margin: 22px 0 10px; padding-top: 16px; border-top: 1px solid var(--lin
 .massmode { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 0 0 16px; padding: 4px; border-radius: 999px; background: rgba(0, 0, 0, .14); width: 100%; max-width: 340px; }
 .massmode button { -webkit-appearance: none; appearance: none; font-family: inherit; border: 0; margin: 0; background: transparent; color: inherit; padding: 8px 6px; border-radius: 999px; font-size: clamp(.72rem, 3.5vw, .88rem); font-weight: 600; line-height: 1.2; min-height: 40px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: .85; }
 .massmode button[aria-pressed="true"] { background: rgba(255, 255, 255, .92); color: #1f2430; opacity: 1; }
+
+/* Phones: no double-tap zoom on anything you tap (pinch zoom still works), and bigger arrow targets.
+   Inputs at 16px stop iPhones zooming in when the date picker opens. */
+button, a, summary, label, select, input, .month, .massmode { touch-action: manipulation; }
+input, select { font-size: 16px; }
+.round { width: 48px; height: 48px; }
+.round.small { width: 44px; height: 44px; }
+@media (max-width: 420px) { .datebar { gap: 6px; } .datepick { min-width: 0; flex: 1; padding: 6px 4px; } }
